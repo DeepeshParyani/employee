@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Update Employees Today's Attendance</title>
+    <!-- Add Bootstrap CDN links -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <form method="post" action="{% url 'employee:today-attendance-update' %}">
+    {% csrf_token %}
+    {{ formset.management_form }}
+
+
+    <div>
+        <h2 class="mb-4 d-flex justify-content-between align-items-center">
+            Update Employees Today's Attendance
+        </h2>
+    </div>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Date</th>
+                <th>Is Present</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if formset %}
+                {% for form in formset %}
+                <tr>
+                    <td>{{ form.employee_name.value }}</td>
+                    <td>{% now "Y-m-d" %}</td>
+                    <td>
+                        {{ form.is_present }}
+                    </td>
+                </tr>
+                {% endfor %}
+            {% else %}
+                {% for employee in employees %}
+                    <tr>
+                        <td>{{ employee.employee.name }}</td>
+                        <td>{{ employee.date }}</td>
+                        <td>
+                            {{ employee.is_present }}
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% endif %}
+        </tbody>
+    </table>
+
+    <div class="d-flex justify-content-center">
+        <button type="submit" class="btn btn-info ml-2">Update</button>
+        <a class="btn btn-secondary ml-2" href="{% url 'employee:employee-list' %}">Back</a>
+    </div>
+</form>
+</body>
+</html>

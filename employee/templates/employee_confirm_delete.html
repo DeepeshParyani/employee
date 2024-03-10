@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Confirm Deletion</title>
+    <!-- Add Bootstrap CDN links -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            padding: 20px;
+        }
+        .confirmation-container {
+            max-width: 600px;
+            margin: auto;
+            background-color: #fff; /* Container background color */
+            padding: 20px;
+            border-radius: 8px; /* Rounded corners */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Box shadow */
+        }
+    </style>
+</head>
+<body>
+    {% block content %}
+        <div class="confirmation-container mt-4">
+            <h2>Confirm Deletion</h2>
+            <p>Are you sure you want to delete '{{ object.name }}'?</p>
+            <form method="post" action="{% url 'employee:employee-delete' pk=object.pk %}" class="form">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Confirm Delete</button>
+                <a class="btn btn-secondary" href="{% url 'employee:employee-list' %}">Cancel</a>
+<!--                <a href="{% url 'employee:employee-list' %}" class="btn btn-secondary mt-2">Cancel</a>-->
+            </form>
+
+        </div>
+    {% endblock %}
+</body>
+</html>
